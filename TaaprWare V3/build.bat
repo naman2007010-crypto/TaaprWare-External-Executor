@@ -59,14 +59,27 @@ if %ERRORLEVEL% EQU 0 (
     echo [!] Injector build failed
 )
 
+:: Build GUI
+echo [*] Building GUI...
+cl.exe /nologo /EHsc /std:c++20 /O2 /MT ^
+    /Fe:"build\TaaprWareGUI.exe" ^
+    gui.cpp ^
+    /link /SUBSYSTEM:WINDOWS user32.lib kernel32.lib ntdll.lib gdi32.lib > build\gui.log 2>&1
+
+if %ERRORLEVEL% EQU 0 (
+    echo [+] GUI built!
+) else (
+    echo [!] GUI build failed
+)
+
 echo.
 echo DLL: %CD%\build\TaaprWareV3.dll
 echo Injector: %CD%\build\Injector.exe
+echo GUI: %CD%\build\TaaprWareGUI.exe
 echo.
 echo HOW TO USE:
 echo 1. Start Roblox and join a game
-echo 2. Run Injector.exe (as Administrator)
-echo 3. Look for TaaprWare console window
-echo 4. Press DELETE to execute scripts
+echo 2. Run TaaprWareGUI.exe (as Administrator)
+echo 3. Click INJECT, then press DELETE in-game
 echo.
 pause
