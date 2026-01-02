@@ -1,6 +1,14 @@
 #pragma once
-
 #include "roblox.h"
 
-// This allows us to perform classic bytecode conversion in 2023 after the compression changes :)
-bool decompressed_luavm_load(uintptr_t state, std::string bytecode);
+// External ASM symbols
+extern "C" void bytecode_hook_asm();
+extern "C" uintptr_t luavm_load_return_addr;
+
+// C++ Handler called by ASM
+extern "C" void bytecode_hook_handler();
+
+bool init_hooks();
+
+// New Export
+extern "C" void ExecuteScript(const char *source);
