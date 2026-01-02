@@ -45,9 +45,28 @@ echo ========================================
 echo   BUILD SUCCESSFUL!
 echo ========================================
 echo.
-echo DLL: %CD%\build\TaaprWareV3.dll
+
+:: Also build the injector
+echo [*] Building Injector...
+cl.exe /nologo /EHsc /std:c++20 /O2 /MT ^
+    /Fe:"build\Injector.exe" ^
+    injector.cpp ^
+    /link user32.lib kernel32.lib > build\injector.log 2>&1
+
+if %ERRORLEVEL% EQU 0 (
+    echo [+] Injector built!
+) else (
+    echo [!] Injector build failed
+)
+
 echo.
-echo To inject: Use any DLL injector (Process Hacker, etc.)
-echo Target: RobloxPlayerBeta.exe
+echo DLL: %CD%\build\TaaprWareV3.dll
+echo Injector: %CD%\build\Injector.exe
+echo.
+echo HOW TO USE:
+echo 1. Start Roblox and join a game
+echo 2. Run Injector.exe (as Administrator)
+echo 3. Look for TaaprWare console window
+echo 4. Press DELETE to execute scripts
 echo.
 pause
