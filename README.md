@@ -1,50 +1,24 @@
-# TaaprWare External Executor
+JNo
 
-External memory manipulation tool for Roblox script execution.
+# TaaprWare V3
 
-## Features
+Discord (real exploits here): https://discord.gg/kj9cN9MfR4 (NEW)
 
-- ✅ **No DLL Injection** - External process only
-- ✅ **Secure Boot Compatible** - No kernel drivers
-- ✅ **Auto-Execute** - Loads Boosting Nation Hub V3
-- ✅ **Pattern Scanning** - Finds Luau VM dynamically
+Making basic bytecode conversion available again to every learning developer
 
-## Building
+You can enable the DLL to use a pipe as well as some other settings at the top of dllmain.cpp. You are responsible for sending data to the pipe.
 
-### Requirements
-- Visual Studio 2019/2022 with C++ Desktop Development
-- Windows 10/11
+# How To Build
 
-### Build Steps
-```cmd
-build.bat
-```
+Set configuration to Release x86 in Visual Studio and build
 
-This will create `build\TaaprWare-External.exe`
+# Note
 
-## Usage
+This has no custom functions. It's a very small exploit and functions with only 2 source files.
+If you want to make custom functions (without abusing mid hooks or using temporarily uninlined functions), you'll need to:
+1. Create a closure using closure offsets
+2. Get the global table using a lua state offset
+3. Create the string which should be the name of the function using string offsets
+4. Write to the global table using table offsets, setting the key at the string you created to the closure you created
 
-1. **Start Roblox** (join any game)
-2. **Run TaaprWare-External.exe**
-3. **Script auto-executes**
-
-## Current Status
-
-⚠️ **Work in Progress**
-
-- [x] Memory reader (OpenProcess, Read/Write)
-- [x] Process attachment
-- [x] Pattern scanning framework
-- [ ] Luau VM detection (needs current build signatures)
-- [ ] Script execution (needs reverse engineering)
-
-## Next Steps
-
-To complete this, we need to:
-1. Reverse engineer current Roblox build  
-2. Find Luau VM signatures
-3. Implement script bytecode injection
-
-## Note
-
-This is an **educational project** for security research.
+Implementing this in this repo would double or triple the amount of code, would be harder to maintain, and would be very confusing for beginners.

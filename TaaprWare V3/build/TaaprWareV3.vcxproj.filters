@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\naman\Desktop\Bnation\roblox\TaaprWare V3\dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\naman\Desktop\Bnation\roblox\TaaprWare V3\luavm_load_hook.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\naman\Desktop\Bnation\roblox\TaaprWare V3\roblox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\naman\Desktop\Bnation\roblox\TaaprWare V3\luavm_load_hook.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\naman\Desktop\Bnation\roblox\TaaprWare V3\Scanner.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\naman\Desktop\Bnation\roblox\TaaprWare V3\AntiCheck.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\naman\Desktop\Bnation\roblox\TaaprWare V3\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="C:\Users\naman\Desktop\Bnation\roblox\TaaprWare V3\hooks.asm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{BAC73793-53A7-323B-BD37-B05AF71F5B36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4B600879-C673-3C54-894A-2186091BAD58}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

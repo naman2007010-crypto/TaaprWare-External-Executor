@@ -1,0 +1,4 @@
+C:/Users/naman/Desktop/Bnation/roblox/TaaprWare V3/build/CMakeFiles/TaaprWareV3.dir
+C:/Users/naman/Desktop/Bnation/roblox/TaaprWare V3/build/CMakeFiles/ManualMapper.dir
+C:/Users/naman/Desktop/Bnation/roblox/TaaprWare V3/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/naman/Desktop/Bnation/roblox/TaaprWare V3/build/CMakeFiles/ZERO_CHECK.dir
