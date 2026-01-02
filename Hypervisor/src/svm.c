@@ -159,6 +159,62 @@ VOID SvmHandleVmmcall(PHV_CPU_CONTEXT Context) {
     // TODO: Implement NPT manipulation
     break;
 
+    // === LUAVM INTERCEPT HYPERCALLS (0x10-0x1F) ===
+
+  case 0x10: // Set luavm_load target address for interception
+    // RBX = luavm_load address, RCX = task_defer address
+    Context->LuavmLoadAddr = vmcb->StateSaveArea.Rbx;
+    Context->TaskDeferAddr = vmcb->StateSaveArea.Rcx;
+    vmcb->StateSaveArea.Rax = 0; // Success
+    KdPrint(("[HV] luavm targets set: load=0x%llX defer=0x%llX\n",
+             Context->LuavmLoadAddr, Context->TaskDeferAddr));
+    break;
+
+  case 0x11: // Intercept at current RIP (breakpoint emulation)
+    // If guest RIP matches luavm_load, emulate success
+    if (vmcb->StateSaveArea.Rip == Context->LuavmLoadAddr) {
+      // Emulate luavm_load returning success (RAX = 0)
+      vmcb->StateSaveArea.Rax = 0;
+      // Skip the function - return to caller
+      // Pop return address from stack
+      UINT64 retAddr = 0;
+      // Read return address from guest RSP
+      MmCopyMemory(&retAddr,
+                   MmGetPhysicalAddress((PVOID)vmcb->StateSaveArea.Rsp),
+                   sizeof(retAddr), MM_COPY_MEMORY_PHYSICAL, NULL);
+      vmcb->StateSaveArea.Rsp += 8;
+      vmcb->StateSaveArea.Rip = retAddr;
+      vmcb->StateSaveArea.Rax = 0; // Success return
+      KdPrint(("[HV] luavm_load intercepted - emulating success\n"));
+    }
+    break;
+
+  case 0x12: // Patch return - force success on any call site
+    // RBX = call site RIP to intercept
+    // When hit, force RAX=0 and continue
+    Context->InterceptRip = vmcb->StateSaveArea.Rbx;
+    vmcb->StateSaveArea.Rax = 0; // Success
+    break;
+
+  case 0x13: // Execute script via hypervisor (L in RBX, script ptr in RCX)
+    // This is the power move - execute entirely from Ring -1
+    // The hypervisor can directly call into Roblox's VM
+    // Note: Requires careful stack/context setup
+    if (Context->LuavmLoadAddr && vmcb->StateSaveArea.Rbx) {
+      // Set up a fake call frame for luavm_load
+      // Guest will resume at luavm_load with our params
+      vmcb->StateSaveArea.Rip = Context->LuavmLoadAddr;
+      // RCX = lua_State (already in RBX from caller)
+      vmcb->StateSaveArea.Rcx = vmcb->StateSaveArea.Rbx;
+      // RDX = std::string* (from caller's RCX)
+      // R8 = chunkname, R9 = env (0)
+      vmcb->StateSaveArea.Rax = 0xDEADBEEF; // Magic marker
+      KdPrint(("[HV] Script execute via hypervisor initiated\n"));
+    } else {
+      vmcb->StateSaveArea.Rax = 0xFFFFFFFF; // Not configured
+    }
+    break;
+
   default:
     vmcb->StateSaveArea.Rax = 0xFFFFFFFF; // Unknown call
     break;

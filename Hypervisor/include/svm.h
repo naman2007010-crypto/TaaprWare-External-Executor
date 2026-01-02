@@ -6,7 +6,6 @@
 #include <intrin.h>
 #include <ntddk.h>
 
-
 // CPUID Leaf for SVM support
 #define CPUID_SVM_FEATURES 0x8000000A
 #define CPUID_VENDOR_AMD 0x80000000
@@ -205,6 +204,13 @@ typedef struct _HV_CPU_CONTEXT {
   BOOLEAN IsVirtualized;   // Is this CPU virtualized?
   UINT64 HostRsp;          // Saved host RSP
   UINT64 HostRip;          // Return address after VMRUN
+
+  // === LUAVM INTERCEPT FIELDS ===
+  UINT64 LuavmLoadAddr; // Address of luavm_load to intercept
+  UINT64 TaskDeferAddr; // Address of task_defer function
+  UINT64 InterceptRip;  // RIP to intercept for patching
+  UINT64 ScriptAddr;    // Address of script data in guest memory
+  UINT64 LuaStateAddr;  // lua_State* for execution
 } HV_CPU_CONTEXT, *PHV_CPU_CONTEXT;
 
 // Global hypervisor state
